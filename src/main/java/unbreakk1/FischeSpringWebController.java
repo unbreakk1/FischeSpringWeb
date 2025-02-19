@@ -11,6 +11,11 @@ public class FischeSpringWebController
 {
     private final List<Message> messages = new ArrayList<>();
 
+    @GetMapping("/api/hello")
+    public String hello()
+    {
+        return "Hello World!";
+    }
 
     @GetMapping("/api/hello/{name}")
     public String hello(@PathVariable String name)
@@ -24,7 +29,6 @@ public class FischeSpringWebController
         return messages;
     }
 
-
     @PostMapping("/api/messages")
     public String addMessage(@RequestBody Message newMessage)
     {
@@ -36,6 +40,8 @@ public class FischeSpringWebController
     public String deleteMessageById(@PathVariable String id)
     {
         Iterator<Message> iterator = messages.iterator();
+
+        // messages.removeIf(message -> message.getId().equals(id) does the same thing
         while (iterator.hasNext())
         {
             Message message = iterator.next();
