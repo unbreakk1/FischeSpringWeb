@@ -10,6 +10,7 @@ import java.util.List;
 public class FischeSpringWebController
 {
     private final List<Message> messages = new ArrayList<>();
+    private final int secretNumber = (int) (Math.random() * 100 + 1);
 
     @GetMapping("/api/hello")
     public String hello()
@@ -52,5 +53,35 @@ public class FischeSpringWebController
             }
         }
         return "Message with id " + id + " not found.";
+    }
+
+    @GetMapping("/api/joke")
+    public String getRandomJoke()
+    {
+        String[] jokes =
+        {
+          "What do you call a fake noodle? An impasta!",
+          "Why don’t skeletons fight each other? They don’t have the guts.",
+          "Parallel lines have so much in common. It’s a shame they’ll never meet."
+        };
+        int randomIndex = (int) (Math.random() * jokes.length);
+        return jokes[randomIndex];
+    }
+
+    @GetMapping("/api/reverse")
+    public String reverseText(@RequestParam String text)
+    {
+        return new StringBuilder(text).reverse().toString();
+    }
+
+    @GetMapping("/api/guess")
+    public String guessNumber(@RequestParam int guess)
+    {
+        if (guess < secretNumber)
+            return "Too low! Try again.";
+        else if (guess > secretNumber)
+            return "Too high! Try again.";
+        else
+            return "Congratulations! You guessed the number!";
     }
 }
